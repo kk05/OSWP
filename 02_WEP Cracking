@@ -6,5 +6,5 @@
 #iwconfig
 #airodump-ng [MonitorModeInterface]   // get WEP AP from the output
 #airodump-ng --bssid <BSSID> --channel <CHANNEL> --write <fileName> [MonitorModeInterface]
-** while keeping the below capturing running, go to the directory where fileName.cap is saved and run below command to crack the key
+** while keeping the above capturing running, go to the directory where fileName.cap is saved and run below command to crack the key
 #aircrack-ng fileName.cap     // in the outout check for KEY FOUND!
