@@ -1,2 +1,13 @@
 - Only packets that can aid with the cracking process are the handshake packets.
   -- These are 4 packets sent when a client connects to the network.
+
+
+STEP 1: Capture the handshake packets
+
+--> TERM1 # airmon-ng start wlan0
+--> TERM1 # airodump-ng [MonitorModeInterface]
+--> TERM1 # Ctl+c
+--> TERM1 #
+--> TERM1 #
+--> TERM1 #
+
